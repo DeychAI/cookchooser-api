@@ -56,8 +56,9 @@ class Meal(db.Model):
     name = db.Column(db.String(256), index=True)
     group = db.Column(db.String(256))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    client_id = db.Column(db.String(80))
 
     def __repr__(self):
-        return '<Meal: %s, Group: %s' % (self.name.encode('utf8'), self.group.encode('utf8'))
+        return '<Meal: %s, Group: %s' % (self.name, self.group)
 
         
