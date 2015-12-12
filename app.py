@@ -6,6 +6,8 @@ from v1.MealList import MealListAPI
 from v1.Token import TokenAPI
 from v1.User import UserAPI
 from v1.UserList import UserListAPI
+from v1.CategoryListAPI import CategoryListAPI
+from v1.CategoryAPI import CategoryAPI
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.cookchooser'
@@ -19,6 +21,8 @@ api.add_resource(UserListAPI, '/api/v1/users')
 api.add_resource(TokenAPI, '/api/v1/token')
 api.add_resource(MealListAPI, '/api/v1/meals')
 api.add_resource(UserAPI, '/api/v1/users/<int:user_id>')
+api.add_resource(CategoryListAPI, '/api/v1/categories')
+api.add_resource(CategoryAPI, '/api/v1/categories/<int:cat_id>')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
