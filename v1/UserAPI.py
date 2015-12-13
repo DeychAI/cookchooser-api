@@ -6,11 +6,15 @@ from models import User
 
 user_fields = {
     'id': fields.Integer,
+    'name': fields.String,
     'username': fields.String,
     'group': fields.String
 }
+
+
 class UserAPI(Resource):
     decorators = [auth.login_required]
+
     @marshal_with(user_fields)
     def get(self, user_id):
         if user_id != g.user.id:

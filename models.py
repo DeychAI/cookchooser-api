@@ -5,10 +5,12 @@ from flask import current_app
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(256), index=True, unique=True)
+    name = db.Column(db.UnicodeText)
     password_hash = db.Column(db.String(64))
     group = db.Column(db.String(256))
 
@@ -41,6 +43,17 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
+class Invite(db.Model):
+    __tablename__ = 'invites'
+    id = db.Column(db.Integer, primary_key=True)
+    invite_from = db.Column(db.String(256))
+    invite_to = db.Column(db.String(256))
+
+    def __repr__(self):
+        return '<Invite from %r to %r>' % (self.invite_from, self.invite_to)
+
+
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
@@ -49,6 +62,7 @@ class Category(db.Model):
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
 
 class Meal(db.Model):
     __tablename__ = 'meals'
@@ -60,5 +74,3 @@ class Meal(db.Model):
 
     def __repr__(self):
         return '<Meal: %s, Group: %s' % (self.name, self.group)
-
-        
