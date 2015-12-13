@@ -44,7 +44,7 @@ class User(db.Model):
 class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), index=True)
+    name = db.Column(db.UnicodeText, index=True)
     meals = db.relationship('Meal', backref='category')
 
     def __repr__(self):
@@ -53,7 +53,7 @@ class Category(db.Model):
 class Meal(db.Model):
     __tablename__ = 'meals'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), index=True)
+    name = db.Column(db.UnicodeText, index=True)
     group = db.Column(db.String(256))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     client_id = db.Column(db.String(80))
