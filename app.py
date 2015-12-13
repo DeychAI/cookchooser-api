@@ -18,20 +18,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.cookchooser'
 app.config['SECRET_KEY'] = os.environ.get('COOKCHOOSER_KEY') or 'cookchooser secret key'
 app.config['ERROR_404_HELP'] = False
 
+api_path = '/cookchooser/api/v1/'
+
 db.init_app(app)
 
 api = Api(app)
 
-api.add_resource(UserListAPI, '/api/v1/users')
-api.add_resource(TokenAPI, '/api/v1/token')
-api.add_resource(MealsListAPI, '/api/v1/meals')
-api.add_resource(MealAPI, '/api/v1/meals/<int:meal_id>')
-api.add_resource(UserAPI, '/api/v1/users/<int:user_id>')
-api.add_resource(CategoryListAPI, '/api/v1/categories')
-api.add_resource(CategoryAPI, '/api/v1/categories/<int:cat_id>')
-api.add_resource(InvitesListAPI, '/api/v1/invites')
-api.add_resource(InviteAPI, '/api/v1/invites/<int:inv_id>')
-api.add_resource(GroupAPI, '/api/v1/group')
+api.add_resource(UserListAPI, api_path + 'users')
+api.add_resource(TokenAPI, api_path + 'token')
+api.add_resource(MealsListAPI, api_path + 'meals')
+api.add_resource(MealAPI, api_path + 'meals/<int:meal_id>')
+api.add_resource(UserAPI, api_path + 'users/<int:user_id>')
+api.add_resource(CategoryListAPI, api_path + 'categories')
+api.add_resource(CategoryAPI, api_path + 'categories/<int:cat_id>')
+api.add_resource(InvitesListAPI, api_path + 'invites')
+api.add_resource(InviteAPI, api_path + 'invites/<int:inv_id>')
+api.add_resource(GroupAPI, api_path + 'group')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')
