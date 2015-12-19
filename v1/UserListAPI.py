@@ -15,7 +15,7 @@ class UserListAPI(Resource):
     def post(self):
         args = self.parser.parse_args()
         if User.query.filter_by(username=args['username']).first() is not None:
-            abort(400, message="User already exists")
+            abort(409, message="User already exists")
 
         user = User(args['username'])
         user.hash_password(args['password'])
