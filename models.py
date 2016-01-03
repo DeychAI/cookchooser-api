@@ -71,6 +71,15 @@ class Meal(db.Model):
     group = db.Column(db.String(256))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     client_id = db.Column(db.String(80))
+    revision = db.Column(db.Integer)
+    color = db.Column(db.String(20))
 
     def __repr__(self):
-        return '<Meal: %s, Group: %s' % (self.name, self.group)
+        return '<Meal: %s, Group: %s>' % (self.name, self.group)
+
+class ColorLegend(db.Model):
+    __tablename__ = 'colorlegend'
+    id = db.Column(db.Integer, primary_key=True)
+    color = db.Column(db.String(20))
+    group = db.Column(db.String(256))
+    legend = db.Column(db.UnicodeText, index=True)
