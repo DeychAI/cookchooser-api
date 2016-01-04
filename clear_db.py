@@ -10,9 +10,11 @@ with app.app_context():
     db.create_all()
 
     # Categories
-    meal_cat = Category(name='Блюдо')
-    salad_cat = Category(name='Салат или гарнир')
-    db.session.add_all([meal_cat, salad_cat])
+    soup_cat = Category(name='Суп')
+    meal_cat = Category(name='Горячее')
+    salad_cat = Category(name='Салат')
+    gar_cat = Category(name='Гарнир')
+    db.session.add_all([soup_cat, meal_cat, salad_cat, gar_cat])
     db.session.commit()
 
     # User
@@ -33,6 +35,6 @@ with app.app_context():
     line = '["Греческий","Гречка","Зимний","Крабовый","Макароны с сыром","Морковь острая","Мясной с фасолью","Огурцы и помидоры","Огурцы, помидоры, горошек","Пюре","Свекольный с сыром","Селедка под шубой","Фасоль стручковая"]'
     x = ast.literal_eval(line)
     for y in x:
-        meal = Meal(name=y, category=salad_cat, group=user.group, client_id=str(uuid.uuid4()), revision=1, color='none')
+        meal = Meal(name=y, category=gar_cat, group=user.group, client_id=str(uuid.uuid4()), revision=1, color='none')
         db.session.add(meal)
         db.session.commit()
