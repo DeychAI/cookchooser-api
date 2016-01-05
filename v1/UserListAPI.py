@@ -1,6 +1,7 @@
 from flask.ext.restful import Resource, reqparse, abort, marshal_with
 from v1.UserAPI import user_fields
 from models import User, db
+from v1.ColorLegendAPI import generate_default_legend
 
 
 class UserListAPI(Resource):
@@ -22,4 +23,7 @@ class UserListAPI(Resource):
         user.name = args['name']
         db.session.add(user)
         db.session.commit()
+
+        generate_default_legend(user.group)
+
         return user, 201

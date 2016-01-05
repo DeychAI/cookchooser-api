@@ -3,6 +3,7 @@ from flask import Flask
 from flask_restful import Api
 
 from models import db
+from v1.ColorLegendAPI import ColorLegendAPI
 from v1.MealsAPI import MealsListAPI, MealAPI
 from v1.TokenAPI import TokenAPI
 from v1.UserAPI import UserAPI
@@ -34,6 +35,7 @@ api.add_resource(CategoryAPI, api_path + 'categories/<int:cat_id>')
 api.add_resource(InvitesListAPI, api_path + 'invites')
 api.add_resource(InviteAPI, api_path + 'invites/<int:inv_id>')
 api.add_resource(GroupAPI, api_path + 'group')
+api.add_resource(ColorLegendAPI, api_path + 'legend')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
