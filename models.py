@@ -67,11 +67,10 @@ class Category(db.Model):
 
 class Meal(db.Model):
     __tablename__ = 'meals'
-    id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(36), primary_key=True)
     name = db.Column(db.UnicodeText, index=True)
     group = db.Column(db.UnicodeText)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    client_id = db.Column(db.String(36)) # UUID
     revision = db.Column(db.Integer)
     color = db.Column(db.UnicodeText)
     image = db.Column(db.UnicodeText)

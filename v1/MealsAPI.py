@@ -8,19 +8,18 @@ cat_fields = {
 }
 
 meal_fields = {
-    'id': fields.Integer,
+    'uuid': fields.String,
     'name': fields.String,
     'category_id': fields.Integer,
     'group': fields.String,
-    'client_id': fields.String,
     'revision': fields.Integer,
     'color': fields.String
 }
 
 post_parser = reqparse.RequestParser()
+post_parser.add_argument('uuid', required='True')
 post_parser.add_argument('name', required='True')
 post_parser.add_argument('category_id', required='True')
-post_parser.add_argument('client_id', required='True')
 post_parser.add_argument('revision', required='True')
 post_parser.add_argument('color', required='True')
 
@@ -37,13 +36,12 @@ class MealsListAPI(Resource):
     @marshal_with(meal_fields)
     def post(self):
         args = post_parser.parse_args()
-        meal = Meal.query.filter_by(name=args['name'], group=g.user.group,
-                                    category_id=args['category_id']).first()
+        meal = Meal.query.filter_by(uuid=args['uuid']).first()
         if meal is not None:
-            return meal, 200
+            abort(409, message='Meal already exists')
 
         meal = Meal(name=args['name'], group=g.user.group,
-                    category_id=args['category_id'], client_id=args['client_id'], revision=1, color=args['color'])
+                    category_id=args['category_id'], uuid=args['uuid'], revision=1, color=args['color'])
         db.session.add(meal)
         db.session.commit()
         return meal, 201
@@ -62,9 +60,14 @@ class MealAPI(Resource):
     decorators = [auth.login_required]
 
     @marshal_with(meal_fields)
-    def put(self, meal_id):
+    def get(self, uuid):
+        meal = Meal.query.get_or_404(uuid)
+        return meal
+
+    @marshal_with(meal_fields)
+    def put(self, uuid):
         args = post_parser.parse_args()
-        meal = Meal.query.get_or_404(meal_id)
+        meal = Meal.query.get_or_404(uuid)
 
         if meal.group != g.user.group:
             abort(403, message='Access denied')
@@ -73,7 +76,7 @@ class MealAPI(Resource):
             abort(409, message='Wrong revision')
 
         meal.name = args['name']
-        meal.client_id = args['client_id']
+        # meal.client_id = args['client_id']
         meal.category_id = args['category_id']
         meal.color = args['color']
         meal.revision += 1
@@ -82,9 +85,9 @@ class MealAPI(Resource):
         db.session.commit()
         return meal
 
-    def delete(self, meal_id):
+    def delete(self, uuid):
         args = delete_parser.parse_args()
-        meal = Meal.query.get_or_404(meal_id)
+        meal = Meal.query.get_or_404(uuid)
 
         if meal.group != g.user.group:
             abort(403, message='Access denied')
