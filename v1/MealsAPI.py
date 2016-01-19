@@ -72,7 +72,7 @@ class MealAPI(Resource):
         if meal.group != g.user.group:
             abort(403, message='Access denied')
 
-        if meal.revision != args['revision']:
+        if meal.revision != int(args['revision']):
             abort(409, message='Wrong revision')
 
         meal.name = args['name']
@@ -92,7 +92,7 @@ class MealAPI(Resource):
         if meal.group != g.user.group:
             abort(403, message='Access denied')
 
-        if meal.revision != args['revision']:
+        if meal.revision != int(args['revision']):
             abort(409, message='Wrong revision')
 
         db.session.delete(meal)
