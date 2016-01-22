@@ -34,7 +34,7 @@ class InvitesListAPI(Resource):
 
         invite = Invite.query.filter_by(invite_to=args['to'], invite_from=g.user.group).first()
         if invite is not None:
-            abort(400, message="Invite for this user already sent")
+            abort(409, message="Invite for this user already sent")
 
         invite = Invite(invite_from = g.user.username, invite_to = args['to'])
         db.session.add(invite)
