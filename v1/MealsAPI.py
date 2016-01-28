@@ -13,7 +13,9 @@ meal_fields = {
     'category_id': fields.Integer,
     'group': fields.String,
     'revision': fields.Integer,
-    'color': fields.String
+    'color': fields.String,
+    'image': fields.String,
+    'description': fields.String
 }
 
 post_parser = reqparse.RequestParser()
@@ -22,6 +24,8 @@ post_parser.add_argument('name', required='True')
 post_parser.add_argument('category_id', required='True')
 post_parser.add_argument('revision', required='True')
 post_parser.add_argument('color', required='True')
+post_parser.add_argument('image', required='True')
+post_parser.add_argument('description', required='True')
 
 get_parser = reqparse.RequestParser()
 get_parser.add_argument('cat')
@@ -40,8 +44,14 @@ class MealsListAPI(Resource):
         if meal is not None:
             abort(409, message='Meal already exists')
 
-        meal = Meal(name=args['name'], group=g.user.group,
-                    category_id=args['category_id'], uuid=args['uuid'], revision=1, color=args['color'])
+        meal = Meal(name=args['name'],
+                    group=g.user.group,
+                    category_id=args['category_id'],
+                    uuid=args['uuid'],
+                    revision=1,
+                    color=args['color'],
+                    image=args['image'],
+                    description=args['description'])
         db.session.add(meal)
         db.session.commit()
         return meal, 201
@@ -76,9 +86,11 @@ class MealAPI(Resource):
             abort(409, message='Wrong revision')
 
         meal.name = args['name']
-        # meal.client_id = args['client_id']
         meal.category_id = args['category_id']
         meal.color = args['color']
+        meal.image = args['image']
+        meal.description = args['description']
+
         meal.revision += 1
 
         db.session.add(meal)
