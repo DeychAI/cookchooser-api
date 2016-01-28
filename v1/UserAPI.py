@@ -8,7 +8,8 @@ user_fields = {
     'id': fields.Integer,
     'name': fields.String,
     'username': fields.String,
-    'group': fields.String
+    'group': fields.String,
+    'image': fields.String
 }
 
 

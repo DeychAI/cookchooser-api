@@ -10,6 +10,7 @@ class UserListAPI(Resource):
         self.parser.add_argument('username', required = 'True')
         self.parser.add_argument('password', required = 'True')
         self.parser.add_argument('name', required = 'True')
+        self.parser.add_argument('image', required = 'True')
         super(UserListAPI, self).__init__()
 
     @marshal_with(user_fields)
@@ -21,6 +22,7 @@ class UserListAPI(Resource):
         user = User(args['username'])
         user.hash_password(args['password'])
         user.name = args['name']
+        user.image = args['image']
         db.session.add(user)
         db.session.commit()
 
